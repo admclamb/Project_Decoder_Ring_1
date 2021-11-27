@@ -37,14 +37,12 @@ const polybiusModule = (function () {
     if (encode) {
       for (const letter of input) {
         let lettLower = letter.toLowerCase();
-        console.log(letter);
         if (
           lettLower in polybiusSquare ||
           lettLower === "i" ||
           lettLower === "j"
         ) {
           if (lettLower === "i" || lettLower === "j") {
-            console.log("in here");
             output += 42;
           } else {
             output += polybiusSquare[lettLower];
@@ -53,15 +51,16 @@ const polybiusModule = (function () {
           output += letter;
         }
       }
-      console.log(output);
     }
     //  Should decode
     if (!encode) {
       let temp = "";
-      let reg = /[0-9]/g;
       for (let i = 0; i < input.length; i++) {
         let num = input[i];
-        if (num !== " ") {
+        // Using a regex to check if a number is a digit and if not
+        // add it to the output
+        let reg = /[\d]/g;
+        if (num.match(reg)) {
           temp += num;
           if (temp.length === 2) {
             let letter = getKeyByValue(polybiusSquare, Number(temp));
@@ -69,7 +68,7 @@ const polybiusModule = (function () {
             temp = "";
           }
         } else {
-          output += " ";
+          output += num;
         }
         //         Check if the last element in the string is an uneven amount of numbers.
         if (i === input.length - 1 && temp.length === 1) {
